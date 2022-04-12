@@ -32,7 +32,10 @@ class _AjoutState extends State<Ajout> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Ajouter individus'),
-
+        actions: [
+          ElevatedButton(onPressed: ajouter,
+              child: Text('Ajouter', style: TextStyle(color: Colors.white),))
+        ],
       ),
       body: new SingleChildScrollView(
         padding: EdgeInsets.all(20.0),
