@@ -36,42 +36,42 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late String nouvelleListe;
-  var individu01 = new Item("John", "Le Rouge","02/04/1950", "51 Bequerville", 00899782, "john.@yahoo.com", "Homme", "image/Red-John-Smiley-Face.png", "Tigre, Tigre, brûlant brillant, dans les forêts de la nuit; Quelle main, quel œil si puissant purent façonner ton effroyable symétrie?" );
+  var individu01 = Item("John", "Le Rouge",DateTime(1954,04,02), "51 Bequerville", 00899782, "john.@yahoo.com", "Homme", "image/Red-John-Smiley-Face.png", "Tigre, Tigre, brûlant brillant, dans les forêts de la nuit; Quelle main, quel œil si puissant purent façonner ton effroyable symétrie?" );
   late List<Item> items;
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          ElevatedButton(onPressed: versPageAjout,
-              child: Text('Ajouter', style: TextStyle(color: Colors.white),))
-        ],
-      ),
-      body:
-      (items != null || items.length == 1)
-        ? new Center(
-        child: new Text(individu01.firstname),
-      )
+        appBar: AppBar(
+          title: Text(widget.title),
+          actions: [
+            ElevatedButton(onPressed: versPageAjout,
+                child: Text('Ajouter', style: TextStyle(color: Colors.white),))
+          ],
+        ),
+        body:
+        (items != null || items.length == 1)
+            ?  Center(
+          child:  Text(individu01.firstname),
+        )
 
-        :ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, i) {
-            Item item = items[i];
-            return ListTile(
-              title: Text(item.firstname),
-            );
-          }
-      )
+            :ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, i) {
+              Item item = items[i];
+              return ListTile(
+                title: Text(item.firstname),
+              );
+            }
+        )
 
     );
   }
-void versPageAjout() {
-    Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) {
-      return new Ajout();
+  void versPageAjout() {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return Ajout();
     } ));
-}
+  }
 
 }
