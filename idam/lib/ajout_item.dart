@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +14,21 @@ class Ajout extends StatefulWidget {
 
 class _AjoutState extends State<Ajout> {
 
+  late String? gender = 'Masculin';
+
+  var items = [
+    'Masculin',
+    'Feminin'
+  ];
+
   late String image;
   late String firstname;
   late String lastname;
-  late String birthday;
+  late DateTime birthday;
   late String adress;
   late int phone;
   late String mail;
-  late String gender;
+
   late String picture;
   late String citation;
 
@@ -48,8 +54,8 @@ class _AjoutState extends State<Ajout> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   (image == null)
-                  ? new Image.asset("image/720236.png")
-                  :new Image.file(new File(image)),
+                      ? new Image.asset("image/720236.png")
+                      :new Image.file(new File(image)),
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -59,11 +65,24 @@ class _AjoutState extends State<Ajout> {
                   ),
                   textField(TypeTextField.firstname, "Prénom de l'individu"),
                   textField(TypeTextField.lastname, "Nom de l'individu"),
-                  textField(TypeTextField.birthday, "Date d'aniversaire"),
-                  textField(TypeTextField.adress, "Adresse de l'individu"),
+                  ElevatedButton(
+                    onPressed: montrerDate,
+                    child: Text((birthday == null)? 'Date d\'anniverssaire' : birthday.toString()),
+                  ),                  textField(TypeTextField.adress, "Adresse de l'individu"),
                   textField(TypeTextField.phone, "Numéro de téléphone"),
                   textField(TypeTextField.mail, "Mail de l'individu"),
-                  textField(TypeTextField.gender, "Le genre"),
+                  DropdownButton(
+                    value: gender,
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    items: items.map((items) {
+                      return DropdownMenuItem(value: items, child: Text(items));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        gender = newValue;
+                      });
+                    },
+                  ),
                   textField(TypeTextField.citation, "Citation favorite"),
                 ],
               ),
@@ -72,6 +91,19 @@ class _AjoutState extends State<Ajout> {
         ),
       ),
     );
+  }
+
+  Future<Null> montrerDate() async {
+    DateTime? birthday = await showDatePicker(
+        context: context,
+        initialDate: DateTime(2012),
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2012));
+
+    if (birthday != null) {
+
+    }
+
   }
 
   TextField textField(TypeTextField type, String label) {
@@ -97,9 +129,7 @@ class _AjoutState extends State<Ajout> {
           case TypeTextField.mail:
             mail as String;
             break;
-          case TypeTextField.gender:
-            gender as String;
-            break;
+
           case TypeTextField.citation:
             citation as String;
             break;
@@ -146,7 +176,7 @@ class _AjoutState extends State<Ajout> {
       if (citation != null) {
         map['citation'] = citation;
       }
-      Item item = new Item(firstname, lastname, birthday, adress, phone, mail, gender, picture, citation);
+      Item item = new Item(firstname, lastname, birthday, adress, phone, mail, gender!, picture, citation);
       item.toJson(map);
       DatabaseClient().ajoutItem(item).then((value) => null);
     }
@@ -154,9 +184,9 @@ class _AjoutState extends State<Ajout> {
   }
 
   Future getImage(ImageSource source) async {
-    var nouvelleIMage = await ImagePicker.pickImage(source: source);
+    var nouvelleIMage = await ImagePicker.platform;
     setState(() {
-      image = nouvelleIMage.path;
+      image = nouvelleIMage as String;
     });
   }
 
