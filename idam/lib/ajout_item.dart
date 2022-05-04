@@ -68,7 +68,8 @@ class _AjoutState extends State<Ajout> {
                   ElevatedButton(
                     onPressed: montrerDate,
                     child: Text((birthday == null)? 'Date d\'anniverssaire' : birthday.toString()),
-                  ),                  textField(TypeTextField.adress, "Adresse de l'individu"),
+                  ),
+                  textField(TypeTextField.adress, "Adresse de l'individu"),
                   textField(TypeTextField.phone, "Numéro de téléphone"),
                   textField(TypeTextField.mail, "Mail de l'individu"),
                   DropdownButton(
